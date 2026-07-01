@@ -5,8 +5,7 @@
         Height="440" Width="480"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F6FA"
-        Icon="app.ico">
+        Background="#F5F6FA">
 
     <Window.Resources>
         <Style x:Key="MainButton" TargetType="Button">
