@@ -1,0 +1,136 @@
+<Window x:Class="BogoTV.Views.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Huong dan su dung - BogoTV"
+        Height="560" Width="620"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F6FA">
+
+    <Window.Resources>
+        <Style x:Key="HeaderLabel" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#1A237E"/>
+            <Setter Property="Margin" Value="0,10,0,6"/>
+        </Style>
+        <Style x:Key="BodyLabel" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#37474F"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+        </Style>
+        <Style x:Key="TableCell" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#263238"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4,2"/>
+        </Style>
+        <Style x:Key="TableHeader" TargetType="TextBlock" BasedOn="{StaticResource TableCell}">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#1A237E"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Padding="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Huong dan su dung BogoTV"
+                       FontFamily="Segoe UI" FontSize="20" FontWeight="Bold"
+                       Foreground="#1A237E" Margin="0,0,0,8"/>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="1. Gioi thieu" Style="{StaticResource HeaderLabel}"/>
+                    <TextBlock Style="{StaticResource BodyLabel}"
+                        Text="BogoTV la bo go tieng Viet cho Windows, ho tro cac kieu go Telex, VNI, VIQR va bang ma Unicode, TCVN3, VNI, VPS, VISCII."/>
+
+                    <TextBlock Text="2. Kieu go Telex - Quy tac" Style="{StaticResource HeaderLabel}"/>
+
+                    <TextBlock Text="2a. Go dau thanh" Style="{StaticResource BodyLabel}"
+                               FontWeight="SemiBold" Margin="0,6,0,2"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="as = a (dau sac)     af = a (dau huyen)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="ar = a (dau hoi)     ax = a (dau nga)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="aj = a (dau nang)    az = a (bo dau)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="Tuong tu cho cac nguyen am: e, i, o, u, y"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="2b. Go nguyen am dac biet" Style="{StaticResource BodyLabel}"
+                               FontWeight="SemiBold" Margin="0,6,0,2"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="aw = a (mo)     aa = a (mu)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="ow = o (mo)     oo = o (mu)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="uw = u (mo)     ee = e (mu)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="dd = d (gach)"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="2c. Vi du" Style="{StaticResource BodyLabel}"
+                               FontWeight="SemiBold" Margin="0,6,0,2"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="teets = teet + s = tiet"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="nguwowif = nguo + i + f = nguoi"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="ddax = dd + a + x = da"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="hoacs = hoa + s = hoa"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="3. Kieu go VNI" Style="{StaticResource HeaderLabel}"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a1 = a (sac)  a2 = a (huyen)  a3 = a (hoi)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a4 = a (nga)  a5 = a (nang)   a0 = a (bo dau)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a8 = a (mo)   a6 = a (mu)     o7 = o (mo)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="o6 = o (mu)   u7 = u (mo)     e6 = e (mu)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="d9 = d (gach)"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="4. Kieu go VIQR" Style="{StaticResource HeaderLabel}"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a' = a (sac)   a` = a (huyen)   a? = a (hoi)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a~ = a (nga)   a. = a (nang)    a- = a (bo dau)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="a^ = a (mu)    a+ = a (mo)      o^ = o (mu)"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="o+ = o (mo)    u+ = u (mo)      e^ = e (mu)"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="5. Phim tat" Style="{StaticResource HeaderLabel}"/>
+                    <Border Background="White" CornerRadius="4" BorderBrush="#E0E0E0" BorderThickness="1" Padding="8,6" Margin="0,4">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="Ctrl + . : Bat/tat bo go tieng Viet"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="Nut Dong : An cua so xuong khay he thong"/>
+                            <TextBlock Style="{StaticResource BodyLabel}" Text="Nut Ket thuc : Thoat hoan toan ung dung"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="6. Luu y" Style="{StaticResource HeaderLabel}"/>
+                    <TextBlock Style="{StaticResource BodyLabel}" Text="- Go dau theo thu tu: go nguyen am truoc, go dau thanh sau."/>
+                    <TextBlock Style="{StaticResource BodyLabel}" Text="- Co the go dau thanh truoc roi moi go nguyen am dac biet."/>
+                    <TextBlock Style="{StaticResource BodyLabel}" Text="- Phim z (Telex) hoac 0 (VNI) de bo dau da go."/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Button Grid.Row="2" Content="Dong" Width="100" Height="32"
+                    HorizontalAlignment="Right" Margin="0,12,0,0"
+                    Click="btnClose_Click"
+                    FontFamily="Segoe UI" FontSize="13"
+                    Background="#3F51B5" Foreground="White"
+                    BorderBrush="#303F9F"/>
+        </Grid>
+    </Border>
+</Window>

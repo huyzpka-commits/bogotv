@@ -1,0 +1,122 @@
+<Window x:Class="BogoTV.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thong tin ung dung - BogoTV"
+        Height="380" Width="460"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F6FA">
+
+    <Window.Resources>
+        <Style x:Key="TitleStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#1A237E"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="InfoLabel" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#37474F"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,3,0,3"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <Border Width="64" Height="64" CornerRadius="32"
+                        Background="#3F51B5" Margin="0,0,0,12">
+                    <TextBlock Text="TV" FontSize="28" FontWeight="Bold"
+                               Foreground="White" FontFamily="Segoe UI"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <TextBlock Text="BogoTV" Style="{StaticResource TitleStyle}"/>
+                <TextBlock Text="Bo go Tieng Viet cho Windows" Style="{StaticResource InfoLabel}"
+                           FontSize="14" Foreground="#78909C"/>
+            </StackPanel>
+
+            <Border Grid.Row="1" Background="White" CornerRadius="6"
+                    BorderBrush="#E0E0E0" BorderThickness="1"
+                    Padding="16,12" Margin="0,16,0,0">
+                <StackPanel>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Phien ban:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="1.0.0.0" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Ngon ngu:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="C# WPF (.NET 8.0)" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Tac gia:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="System Developer" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Kieu go:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="Telex, VNI, VIQR" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Bang ma:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="Unicode, TCVN3, VNI, VPS, VISCII"
+                                   Style="{StaticResource InfoLabel}" HorizontalAlignment="Left"/>
+                    </Grid>
+                    <Grid Margin="0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="License:" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="MIT License" Style="{StaticResource InfoLabel}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Button Grid.Row="2" Content="Dong" Width="100" Height="32"
+                    HorizontalAlignment="Center" Margin="0,16,0,0"
+                    Click="btnClose_Click"
+                    FontFamily="Segoe UI" FontSize="13"
+                    Background="#3F51B5" Foreground="White"
+                    BorderBrush="#303F9F"/>
+        </Grid>
+    </Border>
+</Window>
