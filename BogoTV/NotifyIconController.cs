@@ -86,6 +86,13 @@ namespace BogoTV
 
         private static Icon CreateDefaultIcon()
         {
+            string iconPath = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, "app.ico");
+            if (System.IO.File.Exists(iconPath))
+            {
+                return new Icon(iconPath);
+            }
+
             Bitmap bmp = new Bitmap(32, 32);
             using (Graphics g = Graphics.FromImage(bmp))
             {
