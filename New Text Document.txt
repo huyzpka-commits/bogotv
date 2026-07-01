@@ -1,0 +1,10 @@
+Visual Studio Code
+Version: 1.124.2 (user setup)
+Commit: 6928394f91b684055b873eecb8bc281365131f1c
+Date: 2026-06-12T00:12:36Z
+Electron: 42.2.0
+ElectronBuildId: 14159160
+Chromium: 148.0.7778.97
+Node.js: 24.15.0
+V8: 14.8.178.14-electron.0
+OS: Windows_NT x64 10.0.19045

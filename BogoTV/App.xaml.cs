@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using BogoTV.Engine;
+using BogoTV.Hook;
 using BogoTV.Models;
 
 namespace BogoTV
