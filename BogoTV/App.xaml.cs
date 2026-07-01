@@ -18,6 +18,9 @@ namespace BogoTV
         {
             base.OnStartup(e);
 
+            Engine.DebugLogger.Clear();
+            Engine.DebugLogger.Log("=== BogoTV starting ===");
+
             _settings = new AppSettings();
             _settings.Load();
 
@@ -25,8 +28,10 @@ namespace BogoTV
             {
                 Method = ParseEnum<TypingMethod>(_settings.TypingMethod),
                 Encoding = ParseEnum<CodePage>(_settings.CodePage),
-                IsEnabled = _settings.Enabled
+                IsEnabled = true
             };
+
+            Engine.DebugLogger.Log($"Engine: Method={_engine.Method} Encoding={_engine.Encoding} IsEnabled={_engine.IsEnabled}");
 
             _hook = new GlobalKeyboardHook(_engine);
             _hook.Start();

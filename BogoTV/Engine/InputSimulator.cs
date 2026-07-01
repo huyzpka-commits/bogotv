@@ -6,7 +6,7 @@ namespace BogoTV.Engine
     internal static class InputSimulator
     {
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+        internal static extern uint SendInput(uint nInputs, IntPtr pInputs, int cbSize);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetMessageExtraInfo();
@@ -16,89 +16,73 @@ namespace BogoTV.Engine
         internal const uint KEYEVENTF_KEYUP = 0x0002;
         internal const byte VK_BACK = 0x08;
 
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct KEYBDINPUT
-        {
-            public ushort wVk;
-            public ushort wScan;
-            public uint dwFlags;
-            public uint time;
-            public IntPtr dwExtraInfo;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct INPUT
-        {
-            public int type;
-            public KEYBDINPUT ki;
-        }
-
         internal static void SendBackspace(int count)
         {
             if (count <= 0) return;
-            INPUT[] inputs = new INPUT[count * 2];
-            int idx = 0;
-            for (int i = 0; i < count; i++)
-            {
-                inputs[idx].type = INPUT_KEYBOARD;
-                inputs[idx].ki.wVk = VK_BACK;
-                inputs[idx].ki.wScan = 0;
-                inputs[idx].ki.dwFlags = 0;
-                inputs[idx].ki.dwExtraInfo = GetMessageExtraInfo();
-                idx++;
 
-                inputs[idx].type = INPUT_KEYBOARD;
-                inputs[idx].ki.wVk = VK_BACK;
-                inputs[idx].ki.wScan = 0;
-                inputs[idx].ki.dwFlags = KEYEVENTF_KEYUP;
-                inputs[idx].ki.dwExtraInfo = GetMessageExtraInfo();
-                idx++;
+            int inputSize = 40;
+            int totalSize = inputSize * count * 2;
+            IntPtr pInputs = Marshal.AllocHGlobal(totalSize);
+            try
+            {
+                int offset = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    WriteKeyInput(pInputs, offset, VK_BACK, 0, 0);
+                    offset += inputSize;
+                    WriteKeyInput(pInputs, offset, VK_BACK, 0, KEYEVENTF_KEYUP);
+                    offset += inputSize;
+                }
+
+                uint sent = SendInput((uint)(count * 2), pInputs, inputSize);
+                DebugLogger.Log($"  SendBackspace: inputSize={inputSize} sent={sent}/{count*2} err={Marshal.GetLastWin32Error()}");
             }
-            SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+            finally
+            {
+                Marshal.FreeHGlobal(pInputs);
+            }
         }
 
         internal static void SendUnicodeString(string text)
         {
             if (string.IsNullOrEmpty(text)) return;
 
-            INPUT[] inputs = new INPUT[text.Length * 2];
-            int idx = 0;
-            foreach (char c in text)
+            int inputSize = 40;
+            int totalSize = inputSize * text.Length * 2;
+            IntPtr pInputs = Marshal.AllocHGlobal(totalSize);
+            try
             {
-                inputs[idx].type = INPUT_KEYBOARD;
-                inputs[idx].ki.wVk = 0;
-                inputs[idx].ki.wScan = (ushort)c;
-                inputs[idx].ki.dwFlags = KEYEVENTF_UNICODE;
-                inputs[idx].ki.dwExtraInfo = GetMessageExtraInfo();
-                idx++;
+                int offset = 0;
+                foreach (char c in text)
+                {
+                    WriteKeyInput(pInputs, offset, 0, (ushort)c, KEYEVENTF_UNICODE);
+                    offset += inputSize;
+                    WriteKeyInput(pInputs, offset, 0, (ushort)c, KEYEVENTF_UNICODE | KEYEVENTF_KEYUP);
+                    offset += inputSize;
+                }
 
-                inputs[idx].type = INPUT_KEYBOARD;
-                inputs[idx].ki.wVk = 0;
-                inputs[idx].ki.wScan = (ushort)c;
-                inputs[idx].ki.dwFlags = KEYEVENTF_UNICODE | KEYEVENTF_KEYUP;
-                inputs[idx].ki.dwExtraInfo = GetMessageExtraInfo();
-                idx++;
+                uint sent = SendInput((uint)(text.Length * 2), pInputs, inputSize);
+                DebugLogger.Log($"  SendUnicodeString: inputSize={inputSize} sent={sent}/{text.Length*2} err={Marshal.GetLastWin32Error()}");
+                foreach (char c in text)
+                {
+                    DebugLogger.Log($"    char=0x{(int)c:X4}");
+                }
             }
-            SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+            finally
+            {
+                Marshal.FreeHGlobal(pInputs);
+            }
         }
 
-        internal static void SendUnicodeChar(char c)
+        private static void WriteKeyInput(IntPtr pBase, int offset, ushort wVk, ushort wScan, uint dwFlags)
         {
-            INPUT[] inputs = new INPUT[2];
-
-            inputs[0].type = INPUT_KEYBOARD;
-            inputs[0].ki.wVk = 0;
-            inputs[0].ki.wScan = (ushort)c;
-            inputs[0].ki.dwFlags = KEYEVENTF_UNICODE;
-            inputs[0].ki.dwExtraInfo = GetMessageExtraInfo();
-
-            inputs[1].type = INPUT_KEYBOARD;
-            inputs[1].ki.wVk = 0;
-            inputs[1].ki.wScan = (ushort)c;
-            inputs[1].ki.dwFlags = KEYEVENTF_UNICODE | KEYEVENTF_KEYUP;
-            inputs[1].ki.dwExtraInfo = GetMessageExtraInfo();
-
-            SendInput(2, inputs, Marshal.SizeOf(typeof(INPUT)));
+            int baseOff = offset;
+            Marshal.WriteInt32(pBase, baseOff + 0, INPUT_KEYBOARD);
+            Marshal.WriteInt16(pBase, baseOff + 8, (short)wVk);
+            Marshal.WriteInt16(pBase, baseOff + 10, (short)wScan);
+            Marshal.WriteInt32(pBase, baseOff + 12, (int)dwFlags);
+            Marshal.WriteInt32(pBase, baseOff + 16, 0);
+            Marshal.WriteInt64(pBase, baseOff + 24, 0);
         }
     }
 }

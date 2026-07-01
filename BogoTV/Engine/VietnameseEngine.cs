@@ -245,8 +245,11 @@ namespace BogoTV.Engine
 
             char lower = ToLower(keyChar);
 
+            DebugLogger.Log($"ProcessKey: char='{keyChar}' lower='{lower}' buffer=[{string.Join(",", _buffer)}]");
+
             if (!char.IsLetterOrDigit(keyChar) && !IsToneKey(lower) && keyChar != '+' && keyChar != '^' && keyChar != '\'' && keyChar != '`' && keyChar != '?' && keyChar != '~' && keyChar != '.' && keyChar != '-')
             {
+                DebugLogger.Log("  -> non-matching char, clearing buffer, PassThrough");
                 _buffer.Clear();
                 return new TransformOutcome { Result = TransformResult.PassThrough };
             }
@@ -255,6 +258,8 @@ namespace BogoTV.Engine
                 _buffer.Clear();
 
             var outcome = TryTransform(lower, keyChar);
+
+            DebugLogger.Log($"  -> TryTransform: Result={outcome.Result} Backspace={outcome.BackspaceCount} Output='{outcome.Output}'");
 
             if (outcome.Result == TransformResult.Transformed)
             {

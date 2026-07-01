@@ -36,6 +36,7 @@ namespace BogoTV.Hook
         private const byte VK_CONTROL = 0x11;
         private const byte VK_MENU = 0x12;
         private const byte VK_CAPITAL = 0x14;
+        private const uint LLKHF_INJECTED = 0x10;
 
         private delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -107,6 +108,14 @@ namespace BogoTV.Hook
                 KBDLLHOOKSTRUCT kb = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
                 uint vk = kb.vkCode;
 
+                bool isInjected = (kb.flags & LLKHF_INJECTED) != 0;
+                if (isInjected)
+                {
+                    return CallNextHookEx(_hookID, nCode, wParam, lParam);
+                }
+
+                Engine.DebugLogger.Log($"Hook: msg=0x{msg:X} vk=0x{vk:X} flags=0x{kb.flags:X} injected={isInjected}");
+
                 if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN)
                 {
                     if (vk == VK_CONTROL || vk == 162 || vk == 163) _ctrlPressed = true;
@@ -152,6 +161,7 @@ namespace BogoTV.Hook
                     }
                     else if (!_engine.IsEnabled)
                     {
+                        Engine.DebugLogger.Log($"  Engine DISABLED, skipping vk=0x{vk:X}");
                         _engine.OnNonCharKey();
                     }
                 }
@@ -233,19 +243,32 @@ namespace BogoTV.Hook
         {
             if (outcome.Result == Engine.TransformResult.Transformed)
             {
-                _isProcessing = true;
-                try
-                {
-                    if (outcome.BackspaceCount > 0)
-                        Engine.InputSimulator.SendBackspace(outcome.BackspaceCount);
+                Engine.DebugLogger.Log($"HandleOutcome: Transformed bs={outcome.BackspaceCount} out-len={outcome.Output?.Length}");
+                int bs = outcome.BackspaceCount;
+                string output = outcome.Output ?? "";
 
-                    if (!string.IsNullOrEmpty(outcome.Output))
-                        Engine.InputSimulator.SendUnicodeString(outcome.Output);
-                }
-                finally
+                System.Threading.Tasks.Task.Run(() =>
                 {
-                    _isProcessing = false;
-                }
+                    try
+                    {
+                        if (bs > 0)
+                        {
+                            Engine.InputSimulator.SendBackspace(bs);
+                            Engine.DebugLogger.Log("  SendBackspace done (async)");
+                        }
+
+                        if (!string.IsNullOrEmpty(output))
+                        {
+                            Engine.InputSimulator.SendUnicodeString(output);
+                            Engine.DebugLogger.Log("  SendUnicodeString done (async)");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Engine.DebugLogger.Log($"  SendInput exception: {ex.Message}");
+                    }
+                }).Wait(500);
+
                 return true;
             }
 
